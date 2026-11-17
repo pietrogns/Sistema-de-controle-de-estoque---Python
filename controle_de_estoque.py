@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 
-# VARIÁVEIS GLOBAIS
+# Variáveis globais
 
 ARQUIVO_PRODUTOS = "produtos.json"
 ARQUIVO_MOVIMENTOS = "movimentacoes.json"
@@ -12,16 +12,15 @@ ARQUIVO_MOVIMENTOS = "movimentacoes.json"
 produtos = []        # lista de dicionários com os produtos
 movimentacoes = []   # lista de dicionários com entradas e saídas
 
-# Cores usadas no título
+# Cores pro título
 COR_ESCURA = "#37474F"   # cinza escuro
 COR_CIANO = "#00ACC1"    # ciano
 
 
-
-# FUNÇÕES DE ARQUIVO (leitura e gravação em JSON)
+# funções do arquivo JSON
 
 def carregar_arquivo(nome_arquivo):
-    """Lê um arquivo JSON e devolve uma lista. Se der erro, devolve lista vazia."""
+    #Lê um arquivo JSON e devolve uma lista. Se der erro, devolve lista vazia
     try:
         with open(nome_arquivo, "r", encoding="utf-8") as arquivo:
             return json.load(arquivo)
@@ -37,7 +36,7 @@ def carregar_arquivo(nome_arquivo):
 
 
 def salvar_arquivo(nome_arquivo, dados):
-    """Grava uma lista em um arquivo JSON."""
+    #Grava uma lista em um arquivo JSON
     try:
         with open(nome_arquivo, "w", encoding="utf-8") as arquivo:
             json.dump(dados, arquivo, indent=4, ensure_ascii=False)
@@ -46,10 +45,10 @@ def salvar_arquivo(nome_arquivo, dados):
 
 
 
-# FUNÇÕES AUXILIARES
+#funções auxiliares
 
 def buscar_produto(codigo):
-    """Procura um produto pelo código. Devolve o produto ou None."""
+    #Procura um produto pelo código. Devolve o produto ou None
     for produto in produtos:
         if produto["codigo"] == codigo:
             return produto
@@ -57,24 +56,24 @@ def buscar_produto(codigo):
 
 
 def limpar_tabela(tabela):
-    """Apaga todas as linhas de uma tabela (Treeview)."""
+    #Apaga todas as linhas de uma tabela
     for linha in tabela.get_children():
         tabela.delete(linha)
 
 
 
-# JANELA PRINCIPAL
+# janela principal
 
 janela = tk.Tk()
 janela.title("Controle de Estoque")
 janela.geometry("760x580")
 
-# Título no topo: faixa cinza escuro com uma linha ciano embaixo
+# Título no topo
 tk.Label(janela, text="CONTROLE DE ESTOQUE", bg=COR_ESCURA, fg="white",
          font=("Segoe UI", 16, "bold"), pady=12).pack(fill="x")
 tk.Frame(janela, bg=COR_CIANO, height=4).pack(fill="x")
 
-# Agora que a janela existe, podemos carregar os dados
+#Serve para carregar os dados
 produtos = carregar_arquivo(ARQUIVO_PRODUTOS)
 movimentacoes = carregar_arquivo(ARQUIVO_MOVIMENTOS)
 
@@ -97,7 +96,7 @@ abas.pack(fill="both", expand=True, padx=5, pady=5)
 
 
 
-# ABA 1 - CADASTRO DE PRODUTOS
+#Aba 1 - CADASTRO DE PRODUTOS
 
 tk.Label(aba_produtos, text="Código:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
 entry_codigo = tk.Entry(aba_produtos, width=10)
@@ -140,7 +139,7 @@ tabela_produtos.grid(row=4, column=0, columnspan=4, padx=5, pady=10)
 
 
 def limpar_campos_produto():
-    """Limpa os campos de texto do cadastro."""
+    #Limpa os campos de texto do cadastro
     entry_codigo.config(state="normal")
     entry_codigo.delete(0, tk.END)
     entry_nome.delete(0, tk.END)
@@ -150,10 +149,10 @@ def limpar_campos_produto():
 
 
 def ler_campos_produto(verificar_codigo_duplicado):
-    """
-    Lê e valida os campos do formulário.
-    Devolve um dicionário com o produto, ou None se algo estiver errado.
-    """
+
+    #Lê e valida os campos do formulário.
+    #Devolve um dicionário com o produto, ou None se algo estiver errado.
+    
     try:
         codigo = int(entry_codigo.get())
     except ValueError:
@@ -276,13 +275,12 @@ tk.Button(frame_botoes, text="Excluir", width=12, command=excluir_produto).pack(
 tk.Button(frame_botoes, text="Limpar", width=12, command=limpar_campos_produto).pack(side="left", padx=5)
 
 
-# ABAS 2 e 3 - ENTRADA E SAÍDA DE MERCADORIAS
-
+# abas 2 e 3 - entrada e saída de mercadorias
 def criar_tela_movimento(aba, tipo):
-    """
-    Monta a tela de entrada ou saída (a tela é igual, só muda o tipo).
-    tipo = "Entrada" ou "Saída". Devolve o combobox para ser atualizado depois.
-    """
+    
+    #Monta a tela de entrada ou saída (a tela é igual, só muda o tipo).
+    #tipo = "Entrada" ou "Saída". Devolve o combobox para ser atualizado depois.
+    
     tk.Label(aba, text="Produto:").grid(row=0, column=0, padx=10, pady=10, sticky="e")
     combo = ttk.Combobox(aba, width=40, state="readonly")
     combo.grid(row=0, column=1, padx=10, pady=10)
@@ -306,7 +304,7 @@ def criar_tela_movimento(aba, tipo):
 
 
 def registrar_movimento(tipo, combo, entry_qtd, entry_data):
-    """Registra uma entrada ou saída de mercadoria."""
+    #Registra uma entrada ou saída de mercadoria
     # 1) Produto escolhido
     texto = combo.get()
     if texto == "":
@@ -365,7 +363,7 @@ combo_entrada = criar_tela_movimento(aba_entrada, "Entrada")
 combo_saida = criar_tela_movimento(aba_saida, "Saída")
 
 
-# ABA 4 - CONSULTA DE ESTOQUE
+# aba 4 - consulta de estoque
 
 tipo_busca = tk.StringVar(value="codigo")  # guarda a opção escolhida
 
@@ -388,7 +386,7 @@ tabela_consulta.grid(row=2, column=0, columnspan=5, padx=10, pady=10)
 
 
 def mostrar_consulta(lista):
-    """Mostra uma lista de produtos na tabela de consulta."""
+    #Mostra uma lista de produtos na tabela de consulta
     limpar_tabela(tabela_consulta)
     for p in lista:
         tabela_consulta.insert("", tk.END, values=(
@@ -429,7 +427,7 @@ tk.Button(aba_consulta, text="Consultar", command=consultar).grid(row=0, column=
 tk.Button(aba_consulta, text="Mostrar todos", command=mostrar_todos).grid(row=1, column=4, padx=5)
 
 
-# ABA 5 - ESTOQUE BAIXO
+# aba 5 - produtos com estoque baixo (quantidade <= estoque mínimo)
 
 tabela_baixo = ttk.Treeview(
     aba_baixo, columns=("produto", "quantidade", "minimo"), show="headings", height=16
@@ -444,7 +442,7 @@ tabela_baixo.pack(padx=10, pady=10)
 
 
 def atualizar_baixo():
-    """Mostra os produtos com quantidade <= estoque mínimo."""
+    #Mostra os produtos com quantidade <= estoque mínimo
     limpar_tabela(tabela_baixo)
     for p in produtos:
         if p["quantidade"] <= p["estoque_minimo"]:
@@ -454,7 +452,7 @@ def atualizar_baixo():
 
 
 
-# ABA 6 - HISTÓRICO DE MOVIMENTAÇÕES (relatório simples)
+# aba 6 - histórico de movimentações 
 
 tabela_historico = ttk.Treeview(
     aba_historico,
@@ -482,10 +480,10 @@ def atualizar_historico():
 
 
 
-# ATUALIZAÇÃO GERAL DAS TELAS
+#atualizar tudo
 
 def atualizar_tudo():
-    """Atualiza todas as tabelas e listas depois de qualquer mudança."""
+    #Atualiza todas as tabelas e listas depois de qualquer mudança
     # Tabela de produtos
     limpar_tabela(tabela_produtos)
     for p in produtos:
@@ -508,8 +506,8 @@ def atualizar_tudo():
     atualizar_historico()
 
 
-# ---------------------------------------------------------------
+
 # INÍCIO DO PROGRAMA
-# ---------------------------------------------------------------
+
 atualizar_tudo()
 janela.mainloop()
