@@ -13,9 +13,8 @@ produtos = []        # lista de dicionários com os produtos
 movimentacoes = []   # lista de dicionários com entradas e saídas
 
 # Cores pro título
-COR_ESCURA = "#37474F"   # cinza escuro
-COR_CIANO = "#00ACC1"    # ciano
-
+COR_ESCURA = "#37474F"  
+COR_CIANO = "#00ACC1" 
 
 # funções do arquivo JSON
 

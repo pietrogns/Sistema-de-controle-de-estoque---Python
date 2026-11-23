@@ -1,9 +1,23 @@
 [
     {
         "tipo": "Entrada",
-        "codigo": 1234,
-        "produto": "Motorola G20",
-        "quantidade": 5,
-        "data": "16/11/2026"
+        "codigo": 152,
+        "produto": "Livro",
+        "quantidade": 50,
+        "data": "23/11/2026"
+    },
+    {
+        "tipo": "Saída",
+        "codigo": 152,
+        "produto": "Livro",
+        "quantidade": 30,
+        "data": "23/11/2026"
+    },
+    {
+        "tipo": "Saída",
+        "codigo": 152,
+        "produto": "Livro",
+        "quantidade": 29,
+        "data": "23/11/2026"
     }
 ]
